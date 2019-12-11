@@ -13,7 +13,7 @@ class Mahasiswa extends REST_Controller
     {
         parent::__construct();
         $this->load->model('MahasiswaModel', 'mahasiswa');
-        $this->methods['index_get']['limit'] = 3;
+        $this->methods['index_get']['limit'] = 100;
     }
 
     public function index_get()
@@ -55,7 +55,7 @@ class Mahasiswa extends REST_Controller
             ], REST_Controller::HTTP_BAD_REQUEST);
         } else {
             if ($this->mahasiswa->deleteMahasiswa($id) > 0) {
-                
+
                 $this->response([
                     'status' => true,
                     'id' => $id,
@@ -71,51 +71,50 @@ class Mahasiswa extends REST_Controller
         }
     }
 
-    public function index_post(){
+    public function index_post()
+    {
         $data = [
             'nrp' => $this->post('nrp'),
             'nama' => $this->post('nama'),
             'email' => $this->post('email'),
             'jurusan' => $this->post('jurusan'),
-            
+
         ];
 
-        if ($this->mahasiswa->createMahasiswa($data) > 0 ){
+        if ($this->mahasiswa->createMahasiswa($data) > 0) {
 
             $this->response([
                 'status' => true,
                 'message' => 'mahasiswa has been creaated'
             ], REST_Controller::HTTP_CREATED);
-             
-        }else {
+        } else {
 
             $this->response([
                 'status' => false,
                 'message' => 'failed create data'
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
-            
     }
 
-    public function index_put(){
+    public function index_put()
+    {
         $id = $this->put('id');
 
         $data = [
-            'nrp' => $this->post('nrp'),
-            'nama' => $this->post('nama'),
-            'email' => $this->post('email'),
-            'jurusan' => $this->post('jurusan'),
-            
+            'nrp' => $this->put('nrp'),
+            'nama' => $this->put('nama'),
+            'email' => $this->put('email'),
+            'jurusan' => $this->put('jurusan'),
+
         ];
-        
-        if ($this->mahasiswa->updateMahasiswa($data, $id) > 0 ){
+
+        if ($this->mahasiswa->updateMahasiswa($data, $id) > 0) {
 
             $this->response([
                 'status' => true,
                 'message' => 'mahasiswa has been updated'
             ], REST_Controller::HTTP_NO_CONTENT);
-             
-        }else {
+        } else {
 
             $this->response([
                 'status' => false,
@@ -123,5 +122,4 @@ class Mahasiswa extends REST_Controller
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
     }
-
 }
